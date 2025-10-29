@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Your existing CSS remains the same */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -42,7 +43,7 @@
             z-index: 1;
         }
 
-        /* 3D Network Graph Effect */
+        /* Optimized 3D Network Graph Effect */
         .blockchain-network {
             position: fixed;
             width: 100%;
@@ -60,18 +61,20 @@
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            animation: rotate3d 40s linear infinite;
+            animation: rotate3d 60s linear infinite;
+            will-change: transform;
         }
 
         .network-node {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: #00ff88;
             border-radius: 50%;
-            box-shadow: 0 0 20px #00ff88;
+            box-shadow: 0 0 10px #00ff88;
             transform-style: preserve-3d;
-            animation: nodeFloat 6s ease-in-out infinite;
+            animation: nodeFloat 8s ease-in-out infinite;
+            will-change: transform, opacity, box-shadow;
         }
 
         .network-connection {
@@ -80,42 +83,36 @@
             background: linear-gradient(90deg, transparent, #00ff88, transparent);
             transform-origin: 0 0;
             transform-style: preserve-3d;
-            animation: connectionPulse 4s ease-in-out infinite;
+            animation: connectionPulse 6s ease-in-out infinite;
+            will-change: opacity, box-shadow;
         }
 
         .data-flow {
             position: absolute;
-            width: 4px;
-            height: 4px;
+            width: 3px;
+            height: 3px;
             background: #00ff88;
             border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
+            box-shadow: 0 0 10px #00ff88;
             transform-style: preserve-3d;
-            animation: dataTravel 3s linear infinite;
+            animation: dataTravel 4s linear infinite;
+            will-change: transform, opacity;
         }
 
         .pulse-ring {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #00ff88;
+            width: 15px;
+            height: 15px;
+            border: 1px solid #00ff88;
             border-radius: 50%;
             transform-style: preserve-3d;
-            animation: pulseExpand 2s ease-out infinite;
+            animation: pulseExpand 3s ease-out infinite;
+            will-change: transform, opacity;
         }
 
         @keyframes rotate3d {
             0% {
                 transform: rotateX(10deg) rotateY(0deg) rotateZ(0deg);
-            }
-            25% {
-                transform: rotateX(15deg) rotateY(90deg) rotateZ(5deg);
-            }
-            50% {
-                transform: rotateX(10deg) rotateY(180deg) rotateZ(0deg);
-            }
-            75% {
-                transform: rotateX(15deg) rotateY(270deg) rotateZ(-5deg);
             }
             100% {
                 transform: rotateX(10deg) rotateY(360deg) rotateZ(0deg);
@@ -125,24 +122,24 @@
         @keyframes nodeFloat {
             0%, 100% {
                 transform: translateZ(0) scale(1);
-                opacity: 0.8;
-                box-shadow: 0 0 15px #00ff88;
+                opacity: 0.6;
+                box-shadow: 0 0 10px #00ff88;
             }
             50% {
-                transform: translateZ(20px) scale(1.2);
-                opacity: 1;
-                box-shadow: 0 0 30px #00ff88, 0 0 50px rgba(0, 255, 136, 0.4);
+                transform: translateZ(15px) scale(1.1);
+                opacity: 0.9;
+                box-shadow: 0 0 20px #00ff88, 0 0 30px rgba(0, 255, 136, 0.3);
             }
         }
 
         @keyframes connectionPulse {
             0%, 100% {
-                opacity: 0.1;
-                box-shadow: 0 0 3px rgba(0, 255, 136, 0.2);
+                opacity: 0.05;
+                box-shadow: 0 0 2px rgba(0, 255, 136, 0.1);
             }
             50% {
-                opacity: 0.4;
-                box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+                opacity: 0.3;
+                box-shadow: 0 0 5px rgba(0, 255, 136, 0.4);
             }
         }
 
@@ -171,12 +168,12 @@
                 opacity: 1;
             }
             100% {
-                transform: scale(3);
+                transform: scale(2.5);
                 opacity: 0;
             }
         }
 
-        /* Rest of your existing CSS remains exactly the same */
+        /* Crypto Particles Background */
         .crypto-particles {
             position: fixed;
             width: 100%;
@@ -190,11 +187,12 @@
 
         .crypto-particle {
             position: absolute;
-            font-size: 14px;
+            font-size: 12px;
             color: #00ff88;
-            opacity: 0.3;
+            opacity: 0.2;
             animation: floatParticle linear infinite;
-            text-shadow: 0 0 10px #00ff88;
+            text-shadow: 0 0 5px #00ff88;
+            will-change: transform, opacity;
         }
 
         @keyframes floatParticle {
@@ -203,10 +201,10 @@
                 opacity: 0;
             }
             10% {
-                opacity: 0.4;
+                opacity: 0.3;
             }
             90% {
-                opacity: 0.3;
+                opacity: 0.2;
             }
             100% {
                 transform: translateY(-100px) rotate(360deg);
@@ -324,8 +322,9 @@
             grid-template-columns: 1fr;
             gap: 20px;
             margin-top: 20px;
-            animation: fadeIn 0.8s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out;
             width: 100%;
+            will-change: transform, opacity;
         }
 
         @keyframes fadeIn {
@@ -778,9 +777,10 @@
 
 <script>
     // API Configuration
-    const API_BASE = '/api/crypto';
+    const COINGECKO_API = 'https://api.coingecko.com/api/v3';
     let lastSearchTime = 0;
-    const SEARCH_COOLDOWN = 2000;
+    const SEARCH_COOLDOWN = 1500;
+    let coinListCache = null;
 
     // Initialize crypto effects
     function initCryptoEffects() {
@@ -793,7 +793,8 @@
         const container = document.getElementById('cryptoParticles');
         const symbols = ['₿', '⧫', '●', '♦', '◉', '◈', '✦', '✧'];
         
-        for (let i = 0; i < 20; i++) {
+        // Reduced number of particles for better performance
+        for (let i = 0; i < 12; i++) {
             const particle = document.createElement('div');
             particle.className = 'crypto-particle';
             particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -806,7 +807,7 @@
         }
     }
 
-    // Create 3D Network Graph
+    // Create 3D Network Graph - Optimized for performance
     function create3DNetwork() {
         const container = document.getElementById('blockchainNetwork');
         const networkContainer = document.createElement('div');
@@ -814,7 +815,7 @@
         container.appendChild(networkContainer);
 
         const nodes = [];
-        const nodeCount = 25;
+        const nodeCount = 15; // Reduced from 25 to 15
 
         // Create nodes in 3D space
         for (let i = 0; i < nodeCount; i++) {
@@ -836,10 +837,10 @@
         // Create connections between nearby nodes
         createConnections(networkContainer, nodes);
         
-        // Create data flows
+        // Create data flows - reduced frequency
         createDataFlows(networkContainer, nodes);
         
-        // Create pulse effects
+        // Create pulse effects - reduced frequency
         createPulseEffects(networkContainer, nodes);
     }
 
@@ -857,7 +858,7 @@
                 );
 
                 // Only connect nodes that are relatively close
-                if (distance < 60) {
+                if (distance < 50) { // Reduced from 60 to 50
                     const connection = document.createElement('div');
                     connection.className = 'network-connection';
                     
@@ -897,7 +898,7 @@
                     animateDataFlow(dataFlow, startNode, endNode);
                 }
             }
-        }, 500);
+        }, 800); // Increased from 500ms to 800ms
     }
 
     function animateDataFlow(element, startNode, endNode) {
@@ -937,130 +938,276 @@
             setTimeout(() => {
                 pulse.remove();
             }, 2000);
-        }, 1000);
+        }, 1500); // Increased from 1000ms to 1500ms
     }
 
-    // Enhanced demo data that works for ANY cryptocurrency with proper icons
-    function getDemoData(symbol) {
-        // Base data structure for any crypto
-        const basePrice = Math.random() * 1000 + 0.01;
-        const priceChangePercent = (Math.random() * 20) - 10;
-        const currentPrice = basePrice * (1 + priceChangePercent / 100);
-        
-        const baseCryptoData = {
-            name: symbol.charAt(0).toUpperCase() + symbol.slice(1).toLowerCase(),
-            symbol: symbol.toLowerCase(),
-            current_price: currentPrice,
-            price_change_percentage_24h: priceChangePercent,
-            market_cap: Math.random() * 1000000000000 + 1000000,
-            total_volume: Math.random() * 50000000000 + 1000000,
-            market_cap_rank: Math.floor(Math.random() * 5000) + 1,
-            circulating_supply: Math.random() * 100000000000 + 1000000,
-            price_change_24h: currentPrice * (priceChangePercent / 100),
-            high_24h: currentPrice * (1 + Math.random() * 0.1),
-            low_24h: currentPrice * (1 - Math.random() * 0.1),
-            icon: '💎' // Default gem icon
-        };
-
-        // Complete cryptocurrency icons mapping
-        const cryptoIcons = {
-            'BTC': { name: 'Bitcoin', icon: '₿' },
-            'ETH': { name: 'Ethereum', icon: '⧫' },
-            'ADA': { name: 'Cardano', icon: '◈' },
-            'SOL': { name: 'Solana', icon: '◎' },
-            'DOGE': { name: 'Dogecoin', icon: '🐕' },
-            'DOT': { name: 'Polkadot', icon: '●' },
-            'PI': { name: 'Pi Network', icon: 'π' },
-            'SOLO': { name: 'Sologenic', icon: '✦' },
-            'XRP': { name: 'Ripple', icon: '✕' },
-            'LTC': { name: 'Litecoin', icon: 'Ł' },
-            'USDC': { name: 'USD Coin', icon: '💵' },
-            'USDT': { name: 'Tether', icon: '₮' },
-            'BNB': { name: 'Binance Coin', icon: 'ⓑ' },
-            'BUSD': { name: 'Binance USD', icon: '💲' },
-            'DAI': { name: 'Dai', icon: '◈' },
-            'MATIC': { name: 'Polygon', icon: '⬢' },
-            'AVAX': { name: 'Avalanche', icon: '❄️' },
-            'LINK': { name: 'Chainlink', icon: '🔗' },
-            'UNI': { name: 'Uniswap', icon: '🦄' },
-            'ATOM': { name: 'Cosmos', icon: '⚛️' },
-            'ALGO': { name: 'Algorand', icon: 'Α' },
-            'NEAR': { name: 'Near Protocol', icon: '🔮' },
-            'FTM': { name: 'Fantom', icon: '👻' },
-            'ETC': { name: 'Ethereum Classic', icon: '⬗' },
-            'XLM': { name: 'Stellar', icon: '⭐' },
-            'XMR': { name: 'Monero', icon: 'Ⓜ️' },
-            'ZEC': { name: 'Zcash', icon: 'ⓩ' },
-            'EOS': { name: 'EOS', icon: 'ε' },
-            'XTZ': { name: 'Tezos', icon: 'ꜩ' },
-            'AAVE': { name: 'Aave', icon: '👻' },
-            'COMP': { name: 'Compound', icon: '🧪' },
-            'MKR': { name: 'Maker', icon: 'Ⓜ️' },
-            'SUSHI': { name: 'SushiSwap', icon: '🍣' },
-            'YFI': { name: 'Yearn Finance', icon: '🎯' },
-            'CRV': { name: 'Curve DAO', icon: '⭕' },
-            'SNX': { name: 'Synthetix', icon: '₴' },
-                        'BAT': { name: 'Basic Attention Token', icon: '👁️' },
-            'MANA': { name: 'Decentraland', icon: '🕹️' },
-            'SAND': { name: 'The Sandbox', icon: '🏖️' },
-            'ENJ': { name: 'Enjin Coin', icon: '⚔️' },
-            'CHZ': { name: 'Chiliz', icon: '⚽' },
-            'THETA': { name: 'Theta Network', icon: 'θ' },
-            'FIL': { name: 'Filecoin', icon: '📁' },
-            'ICP': { name: 'Internet Computer', icon: '🌐' },
-            'VET': { name: 'VeChain', icon: 'Ⓥ' },
-            'TRX': { name: 'TRON', icon: '⚡' },
-            'BSV': { name: 'Bitcoin SV', icon: '₿' },
-            'BCH': { name: 'Bitcoin Cash', icon: 'Ƀ' },
-            'XEM': { name: 'NEM', icon: '💠' },
-            'NEO': { name: 'NEO', icon: 'N' },
-            'DASH': { name: 'Dash', icon: 'Đ' },
-            'ZIL': { name: 'Zilliqa', icon: 'Z' },
-            'WAVES': { name: 'Waves', icon: '🌊' },
-            'QTUM': { name: 'Qtum', icon: 'Ⓠ' },
-            'ONT': { name: 'Ontology', icon: '🔗' },
-            'SC': { name: 'Siacoin', icon: '💾' },
-            'BTT': { name: 'BitTorrent', icon: '📡' },
-            'HOT': { name: 'Holo', icon: '🔥' },
-            'NANO': { name: 'Nano', icon: 'Ñ' },
-            'IOTA': { name: 'IOTA', icon: 'ι' },
-            'RVN': { name: 'Ravencoin', icon: '🐦‍⬛' },
-            'ONE': { name: 'Harmony', icon: '❶' },
-            'CELO': { name: 'Celo', icon: '📱' },
-            'UMA': { name: 'UMA', icon: '⛓️' },
-            'BAND': { name: 'Band Protocol', icon: '🎵' },
-            'REN': { name: 'Ren', icon: '🔁' },
-            'KSM': { name: 'Kusama', icon: '🎭' },
-            'EGLD': { name: 'Elrond', icon: '∞' },
-            'TFUEL': { name: 'Theta Fuel', icon: '⛽' },
-            'OCEAN': { name: 'Ocean Protocol', icon: '🌊' },
-            'RSR': { name: 'Reserve Rights', icon: '🛡️' },
-            'PERP': { name: 'Perpetual Protocol', icon: '∞' },
-            'SRM': { name: 'Serum', icon: '💉' },
-            'RAY': { name: 'Raydium', icon: '☀️' },
-            'FTT': { name: 'FTX Token', icon: '🏢' },
-            'HT': { name: 'Huobi Token', icon: '🔥' },
-            'OKB': { name: 'OKB', icon: '⭕' },
-            'LEO': { name: 'UNUS SED LEO', icon: '♌' },
-            'CRO': { name: 'Crypto.com Coin', icon: '🔷' },
-            'NEXO': { name: 'Nexo', icon: '🏦' },
-            'CEL': { name: 'Celsius', icon: '🌡️' },
-            'REV': { name: 'Revain', icon: '📝' }
-        };
-
-        // Get specific crypto data if available, otherwise use base data
-        const upperSymbol = symbol.toUpperCase();
-        if (cryptoIcons[upperSymbol]) {
-            baseCryptoData.name = cryptoIcons[upperSymbol].name;
-            baseCryptoData.icon = cryptoIcons[upperSymbol].icon;
+    // Get coin list from CoinGecko API
+    async function getCoinList() {
+        if (coinListCache) {
+            return coinListCache;
         }
+        
+        try {
+            const response = await fetch(`${COINGECKO_API}/coins/list`);
+            if (!response.ok) throw new Error('Failed to fetch coin list');
+            
+            coinListCache = await response.json();
+            return coinListCache;
+        } catch (error) {
+            console.error('Error fetching coin list:', error);
+            throw error;
+        }
+    }
 
-        return baseCryptoData;
+    // Improved cryptocurrency search with better matching
+    async function getRealCryptoData(symbol) {
+        try {
+            const coinList = await getCoinList();
+            const upperSymbol = symbol.toUpperCase();
+            
+            // Priority matching for major cryptocurrencies
+            const priorityCoins = {
+                'BTC': 'bitcoin',
+                'ETH': 'ethereum',
+                'ADA': 'cardano',
+                'SOL': 'solana',
+                'DOGE': 'dogecoin',
+                'DOT': 'polkadot',
+                'XRP': 'ripple',
+                'LTC': 'litecoin',
+                'USDC': 'usd-coin',
+                'USDT': 'tether',
+                'BNB': 'binancecoin',
+                'BUSD': 'binance-usd',
+                'DAI': 'dai',
+                'MATIC': 'matic-network',
+                'AVAX': 'avalanche-2',
+                'LINK': 'chainlink',
+                'UNI': 'uniswap',
+                'ATOM': 'cosmos',
+                'ALGO': 'algorand',
+                'NEAR': 'near',
+                'FTM': 'fantom',
+                'ETC': 'ethereum-classic',
+                'XLM': 'stellar',
+                'XMR': 'monero',
+                'ZEC': 'zcash',
+                'EOS': 'eos',
+                'XTZ': 'tezos',
+                'AAVE': 'aave',
+                'COMP': 'compound-governance-token',
+                'MKR': 'maker',
+                'SUSHI': 'sushi',
+                'YFI': 'yearn-finance',
+                'CRV': 'curve-dao-token',
+                'SNX': 'havven',
+                'BAT': 'basic-attention-token',
+                'MANA': 'decentraland',
+                'SAND': 'the-sandbox',
+                'ENJ': 'enjincoin',
+                'CHZ': 'chiliz',
+                'THETA': 'theta-token',
+                'FIL': 'filecoin',
+                'ICP': 'internet-computer',
+                'VET': 'vechain',
+                'TRX': 'tron',
+                'BCH': 'bitcoin-cash',
+                'XEM': 'nem',
+                'NEO': 'neo',
+                'DASH': 'dash',
+                'ZIL': 'zilliqa',
+                'WAVES': 'waves',
+                'QTUM': 'qtum',
+                'ONT': 'ontology',
+                'SC': 'siacoin',
+                'BTT': 'bittorrent',
+                'HOT': 'holotoken',
+                'NANO': 'nano',
+                'IOTA': 'iota',
+                'RVN': 'ravencoin',
+                'ONE': 'harmony',
+                'CELO': 'celo',
+                'UMA': 'uma',
+                'BAND': 'band-protocol',
+                'REN': 'republic-protocol',
+                'KSM': 'kusama',
+                'EGLD': 'elrond-erd-2',
+                'TFUEL': 'theta-fuel',
+                'OCEAN': 'ocean-protocol',
+                'RSR': 'reserve-rights-token',
+                'PERP': 'perpetual-protocol',
+                'SRM': 'serum',
+                'RAY': 'raydium',
+                'FTT': 'ftx-token',
+                'HT': 'huobi-token',
+                'OKB': 'okb',
+                'LEO': 'leo-token',
+                'CRO': 'crypto-com-chain',
+                'NEXO': 'nexo',
+                'CEL': 'celsius-degree-token',
+                'REV': 'revain'
+            };
+
+            // Check if it's a priority coin first
+            if (priorityCoins[upperSymbol]) {
+                const coinId = priorityCoins[upperSymbol];
+                return await getCoinDataById(coinId);
+            }
+
+            // Find all coins with matching symbol
+            const matchingCoins = coinList.filter(coin => 
+                coin.symbol.toLowerCase() === symbol.toLowerCase()
+            );
+
+            if (matchingCoins.length === 0) {
+                throw new Error(`Cryptocurrency with symbol "${symbol}" not found`);
+            }
+
+            // If multiple coins have the same symbol, try to find the most popular one
+            // by checking market cap rank (lower rank = more popular)
+            let bestCoin = matchingCoins[0];
+            
+            // Try to get data for the first match
+            try {
+                const coinData = await getCoinDataById(bestCoin.id);
+                return coinData;
+            } catch (error) {
+                // If first coin fails, try others
+                for (let i = 1; i < matchingCoins.length; i++) {
+                    try {
+                        const coinData = await getCoinDataById(matchingCoins[i].id);
+                        return coinData;
+                    } catch (e) {
+                        continue;
+                    }
+                }
+                throw error;
+            }
+            
+        } catch (error) {
+            console.error('Error fetching real crypto data:', error);
+            throw error;
+        }
+    }
+
+    // Get coin data by ID
+    async function getCoinDataById(coinId) {
+        const coinDataResponse = await fetch(`${COINGECKO_API}/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`);
+        if (!coinDataResponse.ok) throw new Error('Failed to fetch coin data');
+        
+        const coinData = await coinDataResponse.json();
+        
+        // Format the data for our app
+        return {
+            name: coinData.name,
+            symbol: coinData.symbol,
+            current_price: coinData.market_data.current_price.usd,
+            price_change_percentage_24h: coinData.market_data.price_change_percentage_24h,
+            market_cap: coinData.market_data.market_cap.usd,
+            total_volume: coinData.market_data.total_volume.usd,
+            market_cap_rank: coinData.market_cap_rank,
+            circulating_supply: coinData.market_data.circulating_supply,
+            price_change_24h: coinData.market_data.price_change_24h,
+            high_24h: coinData.market_data.high_24h.usd,
+            low_24h: coinData.market_data.low_24h.usd,
+            icon: getCryptoIcon(coinData.symbol.toUpperCase())
+        };
+    }
+
+    // Get cryptocurrency icon
+    function getCryptoIcon(symbol) {
+        const cryptoIcons = {
+            'BTC': '₿',
+            'ETH': '⧫',
+            'ADA': '◈',
+            'SOL': '◎',
+            'DOGE': '🐕',
+            'DOT': '●',
+            'XRP': '✕',
+            'LTC': 'Ł',
+            'USDC': '💵',
+            'USDT': '₮',
+            'BNB': 'ⓑ',
+            'BUSD': '💲',
+            'DAI': '◈',
+            'MATIC': '⬢',
+            'AVAX': '❄️',
+            'LINK': '🔗',
+            'UNI': '🦄',
+            'ATOM': '⚛️',
+            'ALGO': 'Α',
+            'NEAR': '🔮',
+            'FTM': '👻',
+            'ETC': '⬗',
+            'XLM': '⭐',
+            'XMR': 'Ⓜ️',
+            'ZEC': 'ⓩ',
+            'EOS': 'ε',
+            'XTZ': 'ꜩ',
+            'AAVE': '👻',
+            'COMP': '🧪',
+            'MKR': 'Ⓜ️',
+            'SUSHI': '🍣',
+            'YFI': '🎯',
+            'CRV': '⭕',
+            'SNX': '₴',
+            'BAT': '👁️',
+            'MANA': '🕹️',
+            'SAND': '🏖️',
+            'ENJ': '⚔️',
+            'CHZ': '⚽',
+            'THETA': 'θ',
+            'FIL': '📁',
+            'ICP': '🌐',
+            'VET': 'Ⓥ',
+            'TRX': '⚡',
+            'BCH': 'Ƀ',
+            'XEM': '💠',
+            'NEO': 'N',
+            'DASH': 'Đ',
+            'ZIL': 'Z',
+            'WAVES': '🌊',
+            'QTUM': 'Ⓠ',
+            'ONT': '🔗',
+            'SC': '💾',
+            'BTT': '📡',
+            'HOT': '🔥',
+            'NANO': 'Ñ',
+            'IOTA': 'ι',
+            'RVN': '🐦‍⬛',
+            'ONE': '❶',
+            'CELO': '📱',
+            'UMA': '⛓️',
+            'BAND': '🎵',
+            'REN': '🔁',
+            'KSM': '🎭',
+            'EGLD': '∞',
+            'TFUEL': '⛽',
+            'OCEAN': '🌊',
+            'RSR': '🛡️',
+            'PERP': '∞',
+            'SRM': '💉',
+            'RAY': '☀️',
+            'FTT': '🏢',
+            'HT': '🔥',
+            'OKB': '⭕',
+            'LEO': '♌',
+            'CRO': '🔷',
+            'NEXO': '🏦',
+            'CEL': '🌡️',
+            'REV': '📝'
+        };
+
+        return cryptoIcons[symbol] || '💎';
     }
 
     // Format numbers with commas
     function formatNumber(num) {
-        if (num >= 1000000000) {
+        if (!num || isNaN(num)) return 'N/A';
+        
+        if (num >= 1000000000000) {
+            return '$' + (num / 1000000000000).toFixed(2) + 'T';
+        } else if (num >= 1000000000) {
             return '$' + (num / 1000000000).toFixed(2) + 'B';
         } else if (num >= 1000000) {
             return '$' + (num / 1000000).toFixed(2) + 'M';
@@ -1073,19 +1220,25 @@
 
     // Format large numbers
     function formatLargeNumber(num) {
-        if (num >= 1000000000) {
+        if (!num || isNaN(num)) return 'N/A';
+        
+        if (num >= 1000000000000) {
+            return (num / 1000000000000).toFixed(2) + 'T';
+        } else if (num >= 1000000000) {
             return (num / 1000000000).toFixed(2) + 'B';
         } else if (num >= 1000000) {
             return (num / 1000000).toFixed(2) + 'M';
         } else if (num >= 1000) {
             return (num / 1000).toFixed(2) + 'K';
         } else {
-            return num.toFixed(2);
+            return num.toLocaleString();
         }
     }
 
     // Format price
     function formatPrice(price) {
+        if (!price || isNaN(price)) return 'N/A';
+        
         if (price >= 1000) {
             return '$' + price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         } else if (price >= 1) {
@@ -1135,23 +1288,23 @@
         showLoading();
         
         try {
-            // Simulate API call delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Use demo data for all cryptocurrencies
-            const cryptoData = getDemoData(symbol);
+            const cryptoData = await getRealCryptoData(symbol);
             displayCryptoData(cryptoData);
             
         } catch (error) {
             console.error('Error fetching crypto data:', error);
-            showError('Failed to fetch cryptocurrency data. Please try again.');
+            showError(error.message || 'Failed to fetch cryptocurrency data. Please try again.');
         }
     }
 
-    // Display cryptocurrency data
+    // Display cryptocurrency data - Optimized for performance
     function displayCryptoData(data) {
+        // Hide loading immediately
+        hideLoading();
+        
         // Show crypto display and back button
-        document.getElementById('cryptoDisplay').style.display = 'grid';
+        const cryptoDisplay = document.getElementById('cryptoDisplay');
+        cryptoDisplay.style.display = 'grid';
         document.getElementById('backButton').style.display = 'flex';
         
         // Hide search container with animation
@@ -1164,8 +1317,14 @@
         setTimeout(() => {
             searchContainer.style.display = 'none';
             appTitle.style.display = 'none';
-        }, 500);
+            
+            // Update crypto data after hiding search
+            updateCryptoData(data);
+        }, 300); // Reduced from 500ms to 300ms
+    }
 
+    // Separate function to update crypto data for better performance
+    function updateCryptoData(data) {
         // Update crypto data
         document.getElementById('cryptoIcon').textContent = data.icon;
         document.getElementById('cryptoName').textContent = data.name;
@@ -1177,31 +1336,37 @@
         const priceChange = data.price_change_percentage_24h;
         const isPositive = priceChange >= 0;
         
-        priceChangeElement.textContent = `${isPositive ? '+' : ''}${priceChange.toFixed(2)}%`;
+        priceChangeElement.textContent = `${isPositive ? '+' : ''}${priceChange ? priceChange.toFixed(2) : '0.00'}%`;
         priceChangeElement.className = `price-change ${isPositive ? '' : 'negative'}`;
         
         // Update market condition
         const conditionElement = document.getElementById('cryptoCondition');
-        if (priceChange > 5) conditionElement.textContent = '🚀 Bullish Momentum';
-        else if (priceChange > 2) conditionElement.textContent = '📈 Gaining Strength';
-        else if (priceChange > -2) conditionElement.textContent = '⚡ Stable Trading';
-        else if (priceChange > -5) conditionElement.textContent = '📉 Mild Correction';
-        else conditionElement.textContent = '🐻 Bearish Pressure';
+        if (!priceChange || priceChange === 0) {
+            conditionElement.textContent = '⚡ Stable Trading';
+        } else if (priceChange > 5) {
+            conditionElement.textContent = '🚀 Bullish Momentum';
+        } else if (priceChange > 2) {
+            conditionElement.textContent = '📈 Gaining Strength';
+        } else if (priceChange > -2) {
+            conditionElement.textContent = '⚡ Stable Trading';
+        } else if (priceChange > -5) {
+            conditionElement.textContent = '📉 Mild Correction';
+        } else {
+            conditionElement.textContent = '🐻 Bearish Pressure';
+        }
 
         // Update detailed information
         document.getElementById('marketCap').textContent = formatNumber(data.market_cap);
         document.getElementById('totalVolume').textContent = formatNumber(data.total_volume);
-        document.getElementById('marketRank').textContent = `#${data.market_cap_rank}`;
+        document.getElementById('marketRank').textContent = data.market_cap_rank ? `#${data.market_cap_rank}` : 'N/A';
         document.getElementById('circulatingSupply').textContent = formatLargeNumber(data.circulating_supply);
         document.getElementById('priceChange24h').textContent = formatPrice(data.price_change_24h);
-        document.getElementById('priceChangePercentage24h').textContent = `${isPositive ? '+' : ''}${data.price_change_percentage_24h.toFixed(2)}%`;
+        document.getElementById('priceChangePercentage24h').textContent = `${isPositive ? '+' : ''}${priceChange ? priceChange.toFixed(2) : '0.00'}%`;
         document.getElementById('high24h').textContent = formatPrice(data.high_24h);
         document.getElementById('low24h').textContent = formatPrice(data.low_24h);
         
         // Update timestamp
         document.getElementById('timestamp').textContent = new Date().toLocaleTimeString();
-        
-        hideLoading();
         
         // Add celebration effect for positive price changes
         if (priceChange > 3) {
@@ -1239,12 +1404,12 @@
         const container = document.getElementById('cryptoParticles');
         const symbols = ['🚀', '💎', '✨', '🌟', '🎉', '💰', '💸', '📈'];
         
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 6; i++) { // Reduced from 8 to 6
             const particle = document.createElement('div');
             particle.className = 'crypto-particle';
             particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
             particle.style.color = '#00ff88';
-            particle.style.fontSize = '20px';
+            particle.style.fontSize = '18px'; // Reduced from 20px
             particle.style.zIndex = '10';
             
             particle.style.left = `${Math.random() * 100}%`;
@@ -1258,7 +1423,7 @@
                 if (particle.parentNode) {
                     particle.parentNode.removeChild(particle);
                 }
-            }, 5000);
+            }, 4000); // Reduced from 5000ms
         }
     }
 
