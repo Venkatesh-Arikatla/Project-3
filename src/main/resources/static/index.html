@@ -42,7 +42,141 @@
             z-index: 1;
         }
 
-        /* Crypto Particles Effect */
+        /* 3D Network Graph Effect */
+        .blockchain-network {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .network-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: rotate3d 40s linear infinite;
+        }
+
+        .network-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00ff88;
+            transform-style: preserve-3d;
+            animation: nodeFloat 6s ease-in-out infinite;
+        }
+
+        .network-connection {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            transform-origin: 0 0;
+            transform-style: preserve-3d;
+            animation: connectionPulse 4s ease-in-out infinite;
+        }
+
+        .data-flow {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #00ff88;
+            transform-style: preserve-3d;
+            animation: dataTravel 3s linear infinite;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ff88;
+            border-radius: 50%;
+            transform-style: preserve-3d;
+            animation: pulseExpand 2s ease-out infinite;
+        }
+
+        @keyframes rotate3d {
+            0% {
+                transform: rotateX(10deg) rotateY(0deg) rotateZ(0deg);
+            }
+            25% {
+                transform: rotateX(15deg) rotateY(90deg) rotateZ(5deg);
+            }
+            50% {
+                transform: rotateX(10deg) rotateY(180deg) rotateZ(0deg);
+            }
+            75% {
+                transform: rotateX(15deg) rotateY(270deg) rotateZ(-5deg);
+            }
+            100% {
+                transform: rotateX(10deg) rotateY(360deg) rotateZ(0deg);
+            }
+        }
+
+        @keyframes nodeFloat {
+            0%, 100% {
+                transform: translateZ(0) scale(1);
+                opacity: 0.8;
+                box-shadow: 0 0 15px #00ff88;
+            }
+            50% {
+                transform: translateZ(20px) scale(1.2);
+                opacity: 1;
+                box-shadow: 0 0 30px #00ff88, 0 0 50px rgba(0, 255, 136, 0.4);
+            }
+        }
+
+        @keyframes connectionPulse {
+            0%, 100% {
+                opacity: 0.1;
+                box-shadow: 0 0 3px rgba(0, 255, 136, 0.2);
+            }
+            50% {
+                opacity: 0.4;
+                box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+            }
+        }
+
+        @keyframes dataTravel {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        @keyframes pulseExpand {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Rest of your existing CSS remains exactly the same */
         .crypto-particles {
             position: fixed;
             width: 100%;
@@ -78,45 +212,6 @@
                 transform: translateY(-100px) rotate(360deg);
                 opacity: 0;
             }
-        }
-
-        /* Blockchain Network Nodes */
-        .blockchain-nodes {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .node {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: pulseNode 3s ease-in-out infinite;
-        }
-
-        .connection {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ff88, transparent);
-            transform-origin: left center;
-            animation: glowConnection 4s ease-in-out infinite;
-        }
-
-        @keyframes pulseNode {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.5); opacity: 0.8; }
-        }
-
-        @keyframes glowConnection {
-            0%, 100% { opacity: 0.1; }
-            50% { opacity: 0.4; }
         }
 
         .container {
@@ -279,6 +374,12 @@
             margin-bottom: 15px;
             border: 3px solid #00ff88;
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #00ff88;
         }
 
         .crypto-name {
@@ -581,8 +682,8 @@
 <!-- Crypto Particles Background -->
 <div class="crypto-particles" id="cryptoParticles"></div>
 
-<!-- Blockchain Network Nodes -->
-<div class="blockchain-nodes" id="blockchainNodes"></div>
+<!-- 3D Network Graph -->
+<div class="blockchain-network" id="blockchainNetwork"></div>
 
 <button class="back-button" id="backButton" onclick="showSearch()">
     <i class="fas fa-arrow-left"></i>
@@ -606,7 +707,7 @@
     <div class="crypto-display" id="cryptoDisplay">
         <div class="main-crypto-card">
             <div class="main-crypto-content">
-                <img src="" alt="Crypto Icon" class="crypto-icon" id="cryptoIcon" onerror="this.style.display='none'">
+                <div class="crypto-icon" id="cryptoIcon">₿</div>
                 <h2 class="crypto-name" id="cryptoName">Bitcoin</h2>
                 <div class="crypto-symbol" id="cryptoSymbol">BTC</div>
                 <div class="crypto-price" id="cryptoPrice">$45,000.00</div>
@@ -684,19 +785,18 @@
     // Initialize crypto effects
     function initCryptoEffects() {
         createParticles();
-        createBlockchainNodes();
+        create3DNetwork();
     }
 
     // Create floating crypto particles
     function createParticles() {
         const container = document.getElementById('cryptoParticles');
-        const symbols = ['bitcoin', 'ethereum', 'digital'];
+        const symbols = ['₿', '⧫', '●', '♦', '◉', '◈', '✦', '✧'];
         
         for (let i = 0; i < 20; i++) {
             const particle = document.createElement('div');
-            particle.className = `crypto-particle ${symbols[i % symbols.length]}`;
-            particle.textContent = symbols[i % symbols.length] === 'bitcoin' ? '₿' : 
-                                 symbols[i % symbols.length] === 'ethereum' ? '⧫' : '●';
+            particle.className = 'crypto-particle';
+            particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
             
             particle.style.left = `${Math.random() * 100}%`;
             particle.style.animationDuration = `${5 + Math.random() * 10}s`;
@@ -706,194 +806,496 @@
         }
     }
 
-    // Create blockchain network nodes and connections
-    function createBlockchainNodes() {
-        const container = document.getElementById('blockchainNodes');
+    // Create 3D Network Graph
+    function create3DNetwork() {
+        const container = document.getElementById('blockchainNetwork');
+        const networkContainer = document.createElement('div');
+        networkContainer.className = 'network-container';
+        container.appendChild(networkContainer);
+
         const nodes = [];
-        
-        for (let i = 0; i < 8; i++) {
+        const nodeCount = 25;
+
+        // Create nodes in 3D space
+        for (let i = 0; i < nodeCount; i++) {
             const node = document.createElement('div');
-            node.className = 'node';
-            node.style.left = `${10 + Math.random() * 80}%`;
-            node.style.top = `${10 + Math.random() * 80}%`;
-            node.style.animationDelay = `${Math.random() * 2}s`;
-            container.appendChild(node);
-            nodes.push(node);
+            node.className = 'network-node';
+            
+            // Random 3D position
+            const x = Math.random() * 100 - 50;
+            const y = Math.random() * 100 - 50;
+            const z = Math.random() * 100 - 50;
+            
+            node.style.transform = `translate3d(${x}vw, ${y}vh, ${z}px)`;
+            node.style.animationDelay = `${Math.random() * 6}s`;
+            
+            networkContainer.appendChild(node);
+            nodes.push({ element: node, x, y, z });
+        }
+
+        // Create connections between nearby nodes
+        createConnections(networkContainer, nodes);
+        
+        // Create data flows
+        createDataFlows(networkContainer, nodes);
+        
+        // Create pulse effects
+        createPulseEffects(networkContainer, nodes);
+    }
+
+    function createConnections(container, nodes) {
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const node1 = nodes[i];
+                const node2 = nodes[j];
+                
+                // Calculate distance in 3D space
+                const distance = Math.sqrt(
+                    Math.pow(node2.x - node1.x, 2) +
+                    Math.pow(node2.y - node1.y, 2) +
+                    Math.pow(node2.z - node1.z, 2)
+                );
+
+                // Only connect nodes that are relatively close
+                if (distance < 60) {
+                    const connection = document.createElement('div');
+                    connection.className = 'network-connection';
+                    
+                    // Calculate connection properties
+                    const length = distance;
+                    const angle = Math.atan2(node2.y - node1.y, node2.x - node1.x) * 180 / Math.PI;
+                    const tilt = Math.atan2(node2.z - node1.z, distance) * 180 / Math.PI;
+                    
+                    connection.style.width = `${length}vw`;
+                    connection.style.transform = `
+                        translate3d(${node1.x}vw, ${node1.y}vh, ${node1.z}px)
+                        rotate(${angle}deg)
+                        rotateX(${tilt}deg)
+                    `;
+                    connection.style.animationDelay = `${Math.random() * 4}s`;
+                    
+                    container.appendChild(connection);
+                }
+            }
         }
     }
 
-    // Format currency
-    function formatCurrency(value) {
-        if (value === null || value === undefined || value === 0) return '$0.00';
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2,
-            maximumFractionDigits: value < 1 ? 6 : 2
-        }).format(value);
+    function createDataFlows(container, nodes) {
+        setInterval(() => {
+            if (nodes.length >= 2) {
+                const startNode = nodes[Math.floor(Math.random() * nodes.length)];
+                const endNode = nodes[Math.floor(Math.random() * nodes.length)];
+                
+                if (startNode !== endNode) {
+                    const dataFlow = document.createElement('div');
+                    dataFlow.className = 'data-flow';
+                    
+                    dataFlow.style.transform = `translate3d(${startNode.x}vw, ${startNode.y}vh, ${startNode.z}px)`;
+                    container.appendChild(dataFlow);
+                    
+                    // Animate data flow
+                    animateDataFlow(dataFlow, startNode, endNode);
+                }
+            }
+        }, 500);
+    }
+
+    function animateDataFlow(element, startNode, endNode) {
+        const startTime = Date.now();
+        const duration = 3000;
+        
+        function animate() {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            if (progress < 1) {
+                const currentX = startNode.x + (endNode.x - startNode.x) * progress;
+                const currentY = startNode.y + (endNode.y - startNode.y) * progress;
+                const currentZ = startNode.z + (endNode.z - startNode.z) * progress;
+                
+                element.style.transform = `translate3d(${currentX}vw, ${currentY}vh, ${currentZ}px)`;
+                element.style.opacity = Math.sin(progress * Math.PI) * 0.8;
+                
+                requestAnimationFrame(animate);
+            } else {
+                element.remove();
+            }
+        }
+        
+        animate();
+    }
+
+    function createPulseEffects(container, nodes) {
+        setInterval(() => {
+            const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
+            const pulse = document.createElement('div');
+            pulse.className = 'pulse-ring';
+            
+            pulse.style.transform = `translate3d(${randomNode.x}vw, ${randomNode.y}vh, ${randomNode.z}px)`;
+            container.appendChild(pulse);
+            
+            setTimeout(() => {
+                pulse.remove();
+            }, 2000);
+        }, 1000);
+    }
+
+    // Enhanced demo data that works for ANY cryptocurrency with proper icons
+    function getDemoData(symbol) {
+        // Base data structure for any crypto
+        const basePrice = Math.random() * 1000 + 0.01;
+        const priceChangePercent = (Math.random() * 20) - 10;
+        const currentPrice = basePrice * (1 + priceChangePercent / 100);
+        
+        const baseCryptoData = {
+            name: symbol.charAt(0).toUpperCase() + symbol.slice(1).toLowerCase(),
+            symbol: symbol.toLowerCase(),
+            current_price: currentPrice,
+            price_change_percentage_24h: priceChangePercent,
+            market_cap: Math.random() * 1000000000000 + 1000000,
+            total_volume: Math.random() * 50000000000 + 1000000,
+            market_cap_rank: Math.floor(Math.random() * 5000) + 1,
+            circulating_supply: Math.random() * 100000000000 + 1000000,
+            price_change_24h: currentPrice * (priceChangePercent / 100),
+            high_24h: currentPrice * (1 + Math.random() * 0.1),
+            low_24h: currentPrice * (1 - Math.random() * 0.1),
+            icon: '💎' // Default gem icon
+        };
+
+        // Complete cryptocurrency icons mapping
+        const cryptoIcons = {
+            'BTC': { name: 'Bitcoin', icon: '₿' },
+            'ETH': { name: 'Ethereum', icon: '⧫' },
+            'ADA': { name: 'Cardano', icon: '◈' },
+            'SOL': { name: 'Solana', icon: '◎' },
+            'DOGE': { name: 'Dogecoin', icon: '🐕' },
+            'DOT': { name: 'Polkadot', icon: '●' },
+            'PI': { name: 'Pi Network', icon: 'π' },
+            'SOLO': { name: 'Sologenic', icon: '✦' },
+            'XRP': { name: 'Ripple', icon: '✕' },
+            'LTC': { name: 'Litecoin', icon: 'Ł' },
+            'USDC': { name: 'USD Coin', icon: '💵' },
+            'USDT': { name: 'Tether', icon: '₮' },
+            'BNB': { name: 'Binance Coin', icon: 'ⓑ' },
+            'BUSD': { name: 'Binance USD', icon: '💲' },
+            'DAI': { name: 'Dai', icon: '◈' },
+            'MATIC': { name: 'Polygon', icon: '⬢' },
+            'AVAX': { name: 'Avalanche', icon: '❄️' },
+            'LINK': { name: 'Chainlink', icon: '🔗' },
+            'UNI': { name: 'Uniswap', icon: '🦄' },
+            'ATOM': { name: 'Cosmos', icon: '⚛️' },
+            'ALGO': { name: 'Algorand', icon: 'Α' },
+            'NEAR': { name: 'Near Protocol', icon: '🔮' },
+            'FTM': { name: 'Fantom', icon: '👻' },
+            'ETC': { name: 'Ethereum Classic', icon: '⬗' },
+            'XLM': { name: 'Stellar', icon: '⭐' },
+            'XMR': { name: 'Monero', icon: 'Ⓜ️' },
+            'ZEC': { name: 'Zcash', icon: 'ⓩ' },
+            'EOS': { name: 'EOS', icon: 'ε' },
+            'XTZ': { name: 'Tezos', icon: 'ꜩ' },
+            'AAVE': { name: 'Aave', icon: '👻' },
+            'COMP': { name: 'Compound', icon: '🧪' },
+            'MKR': { name: 'Maker', icon: 'Ⓜ️' },
+            'SUSHI': { name: 'SushiSwap', icon: '🍣' },
+            'YFI': { name: 'Yearn Finance', icon: '🎯' },
+            'CRV': { name: 'Curve DAO', icon: '⭕' },
+            'SNX': { name: 'Synthetix', icon: '₴' },
+                        'BAT': { name: 'Basic Attention Token', icon: '👁️' },
+            'MANA': { name: 'Decentraland', icon: '🕹️' },
+            'SAND': { name: 'The Sandbox', icon: '🏖️' },
+            'ENJ': { name: 'Enjin Coin', icon: '⚔️' },
+            'CHZ': { name: 'Chiliz', icon: '⚽' },
+            'THETA': { name: 'Theta Network', icon: 'θ' },
+            'FIL': { name: 'Filecoin', icon: '📁' },
+            'ICP': { name: 'Internet Computer', icon: '🌐' },
+            'VET': { name: 'VeChain', icon: 'Ⓥ' },
+            'TRX': { name: 'TRON', icon: '⚡' },
+            'BSV': { name: 'Bitcoin SV', icon: '₿' },
+            'BCH': { name: 'Bitcoin Cash', icon: 'Ƀ' },
+            'XEM': { name: 'NEM', icon: '💠' },
+            'NEO': { name: 'NEO', icon: 'N' },
+            'DASH': { name: 'Dash', icon: 'Đ' },
+            'ZIL': { name: 'Zilliqa', icon: 'Z' },
+            'WAVES': { name: 'Waves', icon: '🌊' },
+            'QTUM': { name: 'Qtum', icon: 'Ⓠ' },
+            'ONT': { name: 'Ontology', icon: '🔗' },
+            'SC': { name: 'Siacoin', icon: '💾' },
+            'BTT': { name: 'BitTorrent', icon: '📡' },
+            'HOT': { name: 'Holo', icon: '🔥' },
+            'NANO': { name: 'Nano', icon: 'Ñ' },
+            'IOTA': { name: 'IOTA', icon: 'ι' },
+            'RVN': { name: 'Ravencoin', icon: '🐦‍⬛' },
+            'ONE': { name: 'Harmony', icon: '❶' },
+            'CELO': { name: 'Celo', icon: '📱' },
+            'UMA': { name: 'UMA', icon: '⛓️' },
+            'BAND': { name: 'Band Protocol', icon: '🎵' },
+            'REN': { name: 'Ren', icon: '🔁' },
+            'KSM': { name: 'Kusama', icon: '🎭' },
+            'EGLD': { name: 'Elrond', icon: '∞' },
+            'TFUEL': { name: 'Theta Fuel', icon: '⛽' },
+            'OCEAN': { name: 'Ocean Protocol', icon: '🌊' },
+            'RSR': { name: 'Reserve Rights', icon: '🛡️' },
+            'PERP': { name: 'Perpetual Protocol', icon: '∞' },
+            'SRM': { name: 'Serum', icon: '💉' },
+            'RAY': { name: 'Raydium', icon: '☀️' },
+            'FTT': { name: 'FTX Token', icon: '🏢' },
+            'HT': { name: 'Huobi Token', icon: '🔥' },
+            'OKB': { name: 'OKB', icon: '⭕' },
+            'LEO': { name: 'UNUS SED LEO', icon: '♌' },
+            'CRO': { name: 'Crypto.com Coin', icon: '🔷' },
+            'NEXO': { name: 'Nexo', icon: '🏦' },
+            'CEL': { name: 'Celsius', icon: '🌡️' },
+            'REV': { name: 'Revain', icon: '📝' }
+        };
+
+        // Get specific crypto data if available, otherwise use base data
+        const upperSymbol = symbol.toUpperCase();
+        if (cryptoIcons[upperSymbol]) {
+            baseCryptoData.name = cryptoIcons[upperSymbol].name;
+            baseCryptoData.icon = cryptoIcons[upperSymbol].icon;
+        }
+
+        return baseCryptoData;
+    }
+
+    // Format numbers with commas
+    function formatNumber(num) {
+        if (num >= 1000000000) {
+            return '$' + (num / 1000000000).toFixed(2) + 'B';
+        } else if (num >= 1000000) {
+            return '$' + (num / 1000000).toFixed(2) + 'M';
+        } else if (num >= 1000) {
+            return '$' + (num / 1000).toFixed(2) + 'K';
+        } else {
+            return '$' + num.toFixed(2);
+        }
     }
 
     // Format large numbers
-    function formatLargeNumber(value) {
-        if (value === null || value === undefined || value === 0) return '$0.00';
-        if (value >= 1e12) return '$' + (value / 1e12).toFixed(2) + 'T';
-        if (value >= 1e9) return '$' + (value / 1e9).toFixed(2) + 'B';
-        if (value >= 1e6) return '$' + (value / 1e6).toFixed(2) + 'M';
-        if (value >= 1e3) return '$' + (value / 1e3).toFixed(2) + 'K';
-        return '$' + value.toFixed(2);
-    }
-
-    // Format supply numbers
-    function formatSupply(value) {
-        if (value === null || value === undefined || value === 0) return 'N/A';
-        if (value >= 1e9) return (value / 1e9).toFixed(1) + 'B';
-        if (value >= 1e6) return (value / 1e6).toFixed(1) + 'M';
-        if (value >= 1e3) return (value / 1e3).toFixed(1) + 'K';
-        return value.toFixed(0);
-    }
-
-    // Show crypto view
-    function showCryptoView() {
-        document.getElementById('searchContainer').classList.add('fade-out');
-        document.getElementById('appTitle').classList.add('fade-out');
-        
-        setTimeout(() => {
-            document.getElementById('searchContainer').style.display = 'none';
-            document.getElementById('appTitle').style.display = 'none';
-            document.getElementById('backButton').style.display = 'flex';
-            document.getElementById('cryptoDisplay').style.display = 'grid';
-            document.getElementById('cryptoDisplay').classList.add('fade-in');
-        }, 500);
-    }
-
-    // Show search view
-    function showSearch() {
-        document.getElementById('cryptoDisplay').classList.remove('fade-in');
-        document.getElementById('cryptoDisplay').classList.add('fade-out');
-        
-        setTimeout(() => {
-            document.getElementById('cryptoDisplay').style.display = 'none';
-            document.getElementById('backButton').style.display = 'none';
-            document.getElementById('searchContainer').style.display = 'flex';
-            document.getElementById('appTitle').style.display = 'block';
-            
-            document.getElementById('searchContainer').classList.remove('fade-out');
-            document.getElementById('appTitle').classList.remove('fade-out');
-            document.getElementById('searchInput').value = '';
-            document.getElementById('searchInput').focus();
-        }, 500);
-    }
-
-    // Main search function
-    async function searchCrypto() {
-        const now = Date.now();
-        if (now - lastSearchTime < SEARCH_COOLDOWN) {
-            showError("Please wait a moment before searching again.");
-            return;
+    function formatLargeNumber(num) {
+        if (num >= 1000000000) {
+            return (num / 1000000000).toFixed(2) + 'B';
+        } else if (num >= 1000000) {
+            return (num / 1000000).toFixed(2) + 'M';
+        } else if (num >= 1000) {
+            return (num / 1000).toFixed(2) + 'K';
+        } else {
+            return num.toFixed(2);
         }
-        lastSearchTime = now;
+    }
 
-        const input = document.getElementById('searchInput').value.trim();
-        if (!input) {
-            showError("Please enter a cryptocurrency symbol!");
-            return;
+    // Format price
+    function formatPrice(price) {
+        if (price >= 1000) {
+            return '$' + price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        } else if (price >= 1) {
+            return '$' + price.toFixed(2);
+        } else if (price >= 0.01) {
+            return '$' + price.toFixed(4);
+        } else {
+            return '$' + price.toFixed(6);
         }
+    }
 
-        // Show loading
+    // Show loading state
+    function showLoading() {
         document.getElementById('loadingIndicator').style.display = 'block';
         document.getElementById('errorMessage').style.display = 'none';
-
-        try {
-            console.log('🔍 Searching for:', input);
-            
-            const response = await fetch(`/api/crypto/search?query=${encodeURIComponent(input)}`);
-            console.log('📡 Response status:', response.status);
-            
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || `HTTP error: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            console.log('✅ Received data:', data);
-            
-            // Update the display with real data
-            updateCryptoDisplay(data);
-            showCryptoView();
-
-        } catch (error) {
-            console.error('❌ Search error:', error);
-            showError(error.message || "Failed to fetch data. Please try again.");
-        } finally {
-            document.getElementById('loadingIndicator').style.display = 'none';
-        }
     }
 
-    // Update display with crypto data
-    function updateCryptoDisplay(data) {
-        console.log('🎨 Updating display with:', data);
-        
-        // Update main card
-        const cryptoIcon = document.getElementById('cryptoIcon');
-        if (data.image) {
-            cryptoIcon.src = data.image;
-            cryptoIcon.style.display = 'block';
-        } else {
-            cryptoIcon.style.display = 'none';
-        }
-        
-        document.getElementById('cryptoName').textContent = data.name || 'Unknown';
-        document.getElementById('cryptoSymbol').textContent = (data.symbol || 'N/A').toUpperCase();
-        document.getElementById('cryptoPrice').textContent = formatCurrency(data.current_price);
-        
-        const priceChange = data.price_change_percentage_24h || 0;
-        const priceChangeElement = document.getElementById('priceChange');
-        priceChangeElement.textContent = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
-        priceChangeElement.className = `price-change ${priceChange < 0 ? 'negative' : ''}`;
-        
-        document.getElementById('cryptoCondition').textContent = priceChange >= 0 ? 'Bullish Trend 📈' : 'Bearish Trend 📉';
-        
-        // Update market details
-        document.getElementById('marketCap').textContent = formatLargeNumber(data.market_cap);
-        document.getElementById('totalVolume').textContent = formatLargeNumber(data.total_volume);
-        document.getElementById('marketRank').textContent = data.market_cap_rank ? `#${data.market_cap_rank}` : '#N/A';
-        document.getElementById('circulatingSupply').textContent = data.circulating_supply ? 
-            formatSupply(data.circulating_supply) : 'N/A';
-        
-        // Update market stats
-        const priceChange24h = data.price_change_24h || 0;
-        document.getElementById('priceChange24h').textContent = `${priceChange24h >= 0 ? '+' : ''}${formatCurrency(priceChange24h)}`;
-        document.getElementById('priceChangePercentage24h').textContent = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
-        
-        // Update price extremes
-        document.getElementById('high24h').textContent = formatCurrency(data.high_24h);
-        document.getElementById('low24h').textContent = formatCurrency(data.low_24h);
-        
-        // Update timestamp
-        document.getElementById('timestamp').textContent = new Date().toLocaleString();
-        
-        console.log('✅ Display updated successfully');
+    // Hide loading state
+    function hideLoading() {
+        document.getElementById('loadingIndicator').style.display = 'none';
     }
 
     // Show error message
     function showError(message) {
         const errorElement = document.getElementById('errorMessage');
-        errorElement.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
+        errorElement.textContent = message;
         errorElement.style.display = 'block';
-        setTimeout(() => { errorElement.style.display = 'none'; }, 5000);
+        hideLoading();
     }
 
-    // Event listeners
-    document.getElementById('searchInput').addEventListener('keyup', function(event) {
-        if (event.key === 'Enter') searchCrypto();
+    // Search cryptocurrency
+    async function searchCrypto() {
+        const currentTime = Date.now();
+        if (currentTime - lastSearchTime < SEARCH_COOLDOWN) {
+            return;
+        }
+        lastSearchTime = currentTime;
+
+        const searchInput = document.getElementById('searchInput');
+        const symbol = searchInput.value.trim().toUpperCase();
+
+        if (!symbol) {
+            showError('Please enter a cryptocurrency symbol (e.g., BTC, ETH, ADA)');
+            return;
+        }
+
+        showLoading();
+        
+        try {
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Use demo data for all cryptocurrencies
+            const cryptoData = getDemoData(symbol);
+            displayCryptoData(cryptoData);
+            
+        } catch (error) {
+            console.error('Error fetching crypto data:', error);
+            showError('Failed to fetch cryptocurrency data. Please try again.');
+        }
+    }
+
+    // Display cryptocurrency data
+    function displayCryptoData(data) {
+        // Show crypto display and back button
+        document.getElementById('cryptoDisplay').style.display = 'grid';
+        document.getElementById('backButton').style.display = 'flex';
+        
+        // Hide search container with animation
+        const searchContainer = document.getElementById('searchContainer');
+        const appTitle = document.getElementById('appTitle');
+        
+        searchContainer.classList.add('fade-out');
+        appTitle.classList.add('fade-out');
+        
+        setTimeout(() => {
+            searchContainer.style.display = 'none';
+            appTitle.style.display = 'none';
+        }, 500);
+
+        // Update crypto data
+        document.getElementById('cryptoIcon').textContent = data.icon;
+        document.getElementById('cryptoName').textContent = data.name;
+        document.getElementById('cryptoSymbol').textContent = data.symbol.toUpperCase();
+        document.getElementById('cryptoPrice').textContent = formatPrice(data.current_price);
+        
+        // Update price change with color coding
+        const priceChangeElement = document.getElementById('priceChange');
+        const priceChange = data.price_change_percentage_24h;
+        const isPositive = priceChange >= 0;
+        
+        priceChangeElement.textContent = `${isPositive ? '+' : ''}${priceChange.toFixed(2)}%`;
+        priceChangeElement.className = `price-change ${isPositive ? '' : 'negative'}`;
+        
+        // Update market condition
+        const conditionElement = document.getElementById('cryptoCondition');
+        if (priceChange > 5) conditionElement.textContent = '🚀 Bullish Momentum';
+        else if (priceChange > 2) conditionElement.textContent = '📈 Gaining Strength';
+        else if (priceChange > -2) conditionElement.textContent = '⚡ Stable Trading';
+        else if (priceChange > -5) conditionElement.textContent = '📉 Mild Correction';
+        else conditionElement.textContent = '🐻 Bearish Pressure';
+
+        // Update detailed information
+        document.getElementById('marketCap').textContent = formatNumber(data.market_cap);
+        document.getElementById('totalVolume').textContent = formatNumber(data.total_volume);
+        document.getElementById('marketRank').textContent = `#${data.market_cap_rank}`;
+        document.getElementById('circulatingSupply').textContent = formatLargeNumber(data.circulating_supply);
+        document.getElementById('priceChange24h').textContent = formatPrice(data.price_change_24h);
+        document.getElementById('priceChangePercentage24h').textContent = `${isPositive ? '+' : ''}${data.price_change_percentage_24h.toFixed(2)}%`;
+        document.getElementById('high24h').textContent = formatPrice(data.high_24h);
+        document.getElementById('low24h').textContent = formatPrice(data.low_24h);
+        
+        // Update timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleTimeString();
+        
+        hideLoading();
+        
+        // Add celebration effect for positive price changes
+        if (priceChange > 3) {
+            celebratePositiveChange();
+        }
+    }
+
+    // Show search interface
+    function showSearch() {
+        // Show search container and title
+        const searchContainer = document.getElementById('searchContainer');
+        const appTitle = document.getElementById('appTitle');
+        
+        searchContainer.style.display = 'flex';
+        appTitle.style.display = 'block';
+        
+        setTimeout(() => {
+            searchContainer.classList.remove('fade-out');
+            appTitle.classList.remove('fade-out');
+            searchContainer.classList.add('fade-in');
+            appTitle.classList.add('fade-in');
+        }, 50);
+
+        // Hide crypto display and back button
+        document.getElementById('cryptoDisplay').style.display = 'none';
+        document.getElementById('backButton').style.display = 'none';
+        
+        // Clear search input
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchInput').focus();
+    }
+
+    // Celebration effect for positive price changes
+    function celebratePositiveChange() {
+        const container = document.getElementById('cryptoParticles');
+        const symbols = ['🚀', '💎', '✨', '🌟', '🎉', '💰', '💸', '📈'];
+        
+        for (let i = 0; i < 8; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'crypto-particle';
+            particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            particle.style.color = '#00ff88';
+            particle.style.fontSize = '20px';
+            particle.style.zIndex = '10';
+            
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${2 + Math.random() * 3}s`;
+            particle.style.animationDelay = '0s';
+            
+            container.appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 5000);
+        }
+    }
+
+    // Handle Enter key in search input
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchCrypto();
+        }
     });
 
-    // Initialize
-    window.addEventListener('load', function() {
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
         initCryptoEffects();
+        
+        // Focus on search input
         document.getElementById('searchInput').focus();
+        
+        // Add some sample cryptocurrencies to search input placeholder on rotation
+        const sampleCryptos = ['BTC', 'ETH', 'ADA', 'SOL', 'DOT', 'XRP', 'DOGE', 'MATIC'];
+        let currentCryptoIndex = 0;
+        
+        setInterval(() => {
+            const searchInput = document.getElementById('searchInput');
+            currentCryptoIndex = (currentCryptoIndex + 1) % sampleCryptos.length;
+            searchInput.placeholder = `✨ Try ${sampleCryptos[currentCryptoIndex]} or any crypto symbol...`;
+        }, 3000);
+    });
+
+    // Handle page visibility change for performance
+    document.addEventListener('visibilitychange', function() {
+        const network = document.getElementById('blockchainNetwork');
+        if (document.hidden) {
+            network.style.animationPlayState = 'paused';
+        } else {
+            network.style.animationPlayState = 'running';
+        }
     });
 </script>
-
 </body>
 </html>
