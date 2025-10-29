@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 CryptoVerse Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: #fff;
+            position: relative;
+            padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Crypto Particles Effect */
+        .crypto-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .crypto-particle {
+            position: absolute;
+            font-size: 14px;
+            color: #00ff88;
+            opacity: 0.3;
+            animation: floatParticle linear infinite;
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+        .crypto-particle.bitcoin { content: "₿"; }
+        .crypto-particle.ethereum { content: "⧫"; }
+        .crypto-particle.digital { content: "●"; }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Blockchain Network Nodes */
+        .blockchain-nodes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #00ff88;
+            animation: pulseNode 3s ease-in-out infinite;
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            transform-origin: left center;
+            animation: glowConnection 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseNode {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.5); opacity: 0.8; }
+        }
+
+        @keyframes glowConnection {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.4; }
+        }
+
+        .container {
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            position: relative;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #00ff88;
+            text-shadow: 2px 2px 10px #000;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            transition: all 0.5s ease;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+            transition: all 0.5s ease;
+            width: 100%;
+        }
+
+        .search-container::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(500px, 90vw);
+            height: 80px;
+            background: radial-gradient(circle at center, rgba(0, 255, 136, 0.2) 0%, transparent 70%);
+            filter: blur(8px);
+            animation: pulse 2s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+            50% { transform: translateX(-50%) scale(1.1); opacity: 0.3; }
+            100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+        }
+
+        .search-container input {
+            padding: 15px 20px;
+            border-radius: 50px 0 0 50px;
+            border: none;
+            outline: none;
+            font-size: clamp(16px, 4vw, 18px);
+            width: min(400px, 65vw);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-container button {
+            padding: 15px 25px;
+            border-radius: 0 50px 50px 0;
+            border: none;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-size: clamp(14px, 4vw, 16px);
+            min-width: 80px;
+        }
+
+        .search-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: clamp(45px, 10vw, 50px);
+            height: clamp(45px, 10vw, 50px);
+            color: #00ff88;
+            font-size: clamp(18px, 4vw, 20px);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .crypto-display {
+            display: none;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            animation: fadeIn 0.8s ease-in-out;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .main-crypto-card {
+            background: rgba(0,0,0,0.8);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.2);
+            padding: 30px 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 350px;
+        }
+
+        .main-crypto-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            gap: 15px;
+        }
+
+        .details-crypto-card {
+            background: rgba(0,0,0,0.8);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.2);
+            padding: clamp(20px, 5vw, 30px);
+            animation: fadeIn 0.5s ease-in-out;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .crypto-icon {
+            width: clamp(80px, 20vw, 100px);
+            height: clamp(80px, 20vw, 100px);
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .crypto-name {
+            font-size: clamp(22px, 6vw, 28px);
+            color: #00ff88;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .crypto-symbol {
+            font-size: clamp(16px, 4vw, 18px);
+            color: #aaa;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .crypto-price {
+            font-size: clamp(42px, 12vw, 60px);
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+            margin: 0;
+        }
+
+        .price-change {
+            font-size: clamp(16px, 4vw, 18px);
+            color: #00ff88;
+            line-height: 1.2;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .price-change.negative {
+            color: #ff4444;
+        }
+
+        .crypto-condition {
+            font-size: clamp(18px, 5vw, 22px);
+            color: #fff;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .crypto-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: clamp(15px, 4vw, 20px);
+            text-align: center;
+            transition: transform 0.3s;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .detail-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-icon {
+            font-size: clamp(24px, 6vw, 30px);
+            margin-bottom: 10px;
+            color: #00ff88;
+        }
+
+        .detail-label {
+            font-size: clamp(12px, 3vw, 14px);
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .market-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .stat-label {
+            font-size: clamp(12px, 3vw, 14px);
+            color: #aaa;
+        }
+
+        .stat-value {
+            font-size: clamp(14px, 3.5vw, 16px);
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .price-extremes {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .price-item {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .price-icon {
+            font-size: clamp(24px, 6vw, 30px);
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+
+        .price-label {
+            font-size: clamp(12px, 3vw, 14px);
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        .price-value {
+            font-size: clamp(16px, 4vw, 18px);
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .loading-spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid #00ff88;
+            width: clamp(40px, 10vw, 50px);
+            height: clamp(40px, 10vw, 50px);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            display: none;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: min(500px, 90vw);
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        /* Animation classes */
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Desktop-specific styles */
+        @media (min-width: 768px) {
+            .crypto-display {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                margin-top: 30px;
+            }
+            
+            .search-container input {
+                width: 400px;
+            }
+            
+            .crypto-details {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            
+            .market-stats, .price-extremes {
+                flex-wrap: nowrap;
+                gap: 0;
+            }
+            
+            .main-crypto-card {
+                min-height: 400px;
+                padding: 40px 30px;
+            }
+            
+            .main-crypto-content {
+                gap: 20px;
+            }
+        }
+
+        /* Mobile-specific optimizations */
+        @media (max-width: 767px) {
+            body {
+                padding: 15px;
+                align-items: flex-start;
+                padding-top: 70px;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .search-container input {
+                border-radius: 50px;
+                width: min(350px, 85vw);
+            }
+            
+            .search-container button {
+                border-radius: 50px;
+                width: min(350px, 85vw);
+                padding: 15px;
+            }
+            
+            .back-button {
+                top: 15px;
+                left: 15px;
+            }
+            
+            .detail-item {
+                min-height: 100px;
+            }
+            
+            .main-crypto-card {
+                min-height: 300px;
+                padding: 25px 15px;
+            }
+            
+            .main-crypto-content {
+                gap: 12px;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+                padding-top: 60px;
+            }
+            
+            .search-container input, .search-container button {
+                width: 100%;
+            }
+            
+            .back-button {
+                top: 10px;
+                left: 10px;
+            }
+            
+            .crypto-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-crypto-card {
+                min-height: 280px;
+                padding: 20px 15px;
+            }
+            
+            .main-crypto-content {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Crypto Particles Background -->
+<div class="crypto-particles" id="cryptoParticles"></div>
+
+<!-- Blockchain Network Nodes -->
+<div class="blockchain-nodes" id="blockchainNodes"></div>
+
+<button class="back-button" id="backButton" onclick="showSearch()">
+    <i class="fas fa-arrow-left"></i>
+</button>
+
+<div class="container">
+    <h1 id="appTitle">🚀 CryptoVerse Pro</h1>
+
+    <div class="search-container" id="searchContainer">
+        <input type="text" id="searchInput" placeholder="✨ Enter crypto symbol (BTC, ETH, ADA...)" autocomplete="off">
+        <button onclick="searchCrypto()">Search</button>
+    </div>
+
+    <div class="loading" id="loadingIndicator">
+        <div class="loading-spinner"></div>
+        <p>Fetching crypto data...</p>
+    </div>
+
+    <div class="error-message" id="errorMessage"></div>
+
+    <div class="crypto-display" id="cryptoDisplay">
+        <div class="main-crypto-card">
+            <div class="main-crypto-content">
+                <img src="" alt="Crypto Icon" class="crypto-icon" id="cryptoIcon" onerror="this.style.display='none'">
+                <h2 class="crypto-name" id="cryptoName">Bitcoin</h2>
+                <div class="crypto-symbol" id="cryptoSymbol">BTC</div>
+                <div class="crypto-price" id="cryptoPrice">$45,000.00</div>
+                <div class="price-change" id="priceChange">+2.5%</div>
+                <div class="crypto-condition" id="cryptoCondition">Market Cap Leader</div>
+            </div>
+        </div>
+
+        <div class="details-crypto-card">
+            <h3 style="color: #00ff88; margin-bottom: 20px; text-align: center;">Market Details</h3>
+            
+            <div class="crypto-details">
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="detail-label">Market Cap</div>
+                    <div class="detail-value" id="marketCap">$880B</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="detail-label">24h Volume</div>
+                    <div class="detail-value" id="totalVolume">$25B</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="detail-label">Rank</div>
+                    <div class="detail-value" id="marketRank">#1</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-coins"></i></div>
+                    <div class="detail-label">Circulating Supply</div>
+                    <div class="detail-value" id="circulatingSupply">19.5M</div>
+                </div>
+            </div>
+            
+            <div class="market-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Price Change 24h</div>
+                    <div class="stat-value" id="priceChange24h">+$500.25</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Price Change % 24h</div>
+                    <div class="stat-value" id="priceChangePercentage24h">+1.12%</div>
+                </div>
+            </div>
+            
+            <div class="price-extremes">
+                <div class="price-item">
+                    <div class="price-icon">📈</div>
+                    <div class="price-label">24h High</div>
+                    <div class="price-value" id="high24h">$45,500.00</div>
+                </div>
+                <div class="price-item">
+                    <div class="price-icon">📉</div>
+                    <div class="price-label">24h Low</div>
+                    <div class="price-value" id="low24h">$44,800.00</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; text-align: center; color: #aaa; font-size: 14px;">
+                Last updated: <span id="timestamp">2025-10-28 08:30:45</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Updated API base URL to use relative path (works with same domain)
+    const API_BASE = '/api/crypto';
+
+    // Initialize crypto effects
+    function initCryptoEffects() {
+        createParticles();
+        createBlockchainNodes();
+    }
+
+    // Create floating crypto particles
+    function createParticles() {
+        const container = document.getElementById('cryptoParticles');
+        const symbols = ['bitcoin', 'ethereum', 'digital', 'bitcoin', 'ethereum', 'digital'];
+        
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = `crypto-particle ${symbols[i % symbols.length]}`;
+            particle.textContent = symbols[i % symbols.length] === 'bitcoin' ? '₿' : 
+                                 symbols[i % symbols.length] === 'ethereum' ? '⧫' : '●';
+            
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            
+            container.appendChild(particle);
+        }
+    }
+
+    // Create blockchain network nodes and connections
+    function createBlockchainNodes() {
+        const container = document.getElementById('blockchainNodes');
+        const nodes = [];
+        
+        // Create nodes
+        for (let i = 0; i < 8; i++) {
+            const node = document.createElement('div');
+            node.className = 'node';
+            node.style.left = `${10 + Math.random() * 80}%`;
+            node.style.top = `${10 + Math.random() * 80}%`;
+            node.style.animationDelay = `${Math.random() * 2}s`;
+            
+            container.appendChild(node);
+            nodes.push(node);
+        }
+        
+        // Create connections between some nodes
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < Math.min(i + 3, nodes.length); j++) {
+                if (Math.random() > 0.3) {
+                    createConnection(nodes[i], nodes[j]);
+                }
+            }
+        }
+    }
+
+    function createConnection(node1, node2) {
+        const rect1 = node1.getBoundingClientRect();
+        const rect2 = node2.getBoundingClientRect();
+        
+        const x1 = rect1.left + rect1.width / 2;
+        const y1 = rect1.top + rect1.height / 2;
+        const x2 = rect2.left + rect2.width / 2;
+        const y2 = rect2.top + rect2.height / 2;
+        
+        const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        
+        const connection = document.createElement('div');
+        connection.className = 'connection';
+        connection.style.width = `${length}px`;
+        connection.style.left = `${x1}px`;
+        connection.style.top = `${y1}px`;
+        connection.style.transform = `rotate(${angle}deg)`;
+        connection.style.animationDelay = `${Math.random() * 2}s`;
+        
+        document.getElementById('blockchainNodes').appendChild(connection);
+    }
+
+    function formatCurrency(value) {
+        if (!value || value === 0) return '$0.00';
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(value);
+    }
+
+    function formatLargeNumber(value) {
+        if (!value || value === 0) return '$0.00';
+        if (value >= 1e12) {
+            return '$' + (value / 1e12).toFixed(2) + 'T';
+        } else if (value >= 1e9) {
+            return '$' + (value / 1e9).toFixed(2) + 'B';
+        } else if (value >= 1e6) {
+            return '$' + (value / 1e6).toFixed(2) + 'M';
+        } else if (value >= 1e3) {
+            return '$' + (value / 1e3).toFixed(2) + 'K';
+        }
+        return '$' + value.toFixed(2);
+    }
+
+    function showCryptoView() {
+        document.getElementById('searchContainer').classList.add('fade-out');
+        document.getElementById('appTitle').classList.add('fade-out');
+        
+        setTimeout(() => {
+            document.getElementById('searchContainer').style.display = 'none';
+            document.getElementById('appTitle').style.display = 'none';
+            document.getElementById('backButton').style.display = 'flex';
+            document.getElementById('cryptoDisplay').style.display = 'grid';
+            document.getElementById('cryptoDisplay').classList.add('fade-in');
+        }, 500);
+    }
+
+    function showSearch() {
+        document.getElementById('cryptoDisplay').classList.remove('fade-in');
+        document.getElementById('cryptoDisplay').classList.add('fade-out');
+        
+        setTimeout(() => {
+            document.getElementById('cryptoDisplay').style.display = 'none';
+            document.getElementById('backButton').style.display = 'none';
+            document.getElementById('searchContainer').style.display = 'flex';
+            document.getElementById('appTitle').style.display = 'block';
+            
+            void document.getElementById('searchContainer').offsetWidth;
+            void document.getElementById('appTitle').offsetWidth;
+            
+            document.getElementById('searchContainer').classList.remove('fade-out');
+            document.getElementById('appTitle').classList.remove('fade-out');
+            document.getElementById('searchContainer').classList.add('fade-in');
+            document.getElementById('appTitle').classList.add('fade-in');
+            
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchInput').focus();
+        }, 500);
+    }
+
+    async function searchCrypto() {
+        const input = document.getElementById('searchInput').value.trim();
+        if (!input) {
+            showError("Please enter a cryptocurrency symbol!");
+            return;
+        }
+
+        document.getElementById('loadingIndicator').style.display = 'block';
+        document.getElementById('errorMessage').style.display = 'none';
+
+        try {
+            console.log('🔍 Making API request to:', `${API_BASE}/search?query=${encodeURIComponent(input)}`);
+            
+            const response = await fetch(`${API_BASE}/search?query=${encodeURIComponent(input)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            console.log('📡 Response status:', response.status);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('❌ API Error:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('✅ API Response data:', data);
+            
+            updateCryptoDisplay(data);
+            showCryptoView();
+
+        } catch (error) {
+            console.error('❌ Error fetching crypto data:', error);
+            showError("Could not fetch crypto data. Please check the symbol and try again.");
+        } finally {
+            document.getElementById('loadingIndicator').style.display = 'none';
+        }
+    }
+
+    function updateCryptoDisplay(data) {
+        console.log('🎨 Updating display with data:', data);
+        
+        // Update main crypto card
+        const cryptoIcon = document.getElementById('cryptoIcon');
+        if (data.image) {
+            cryptoIcon.src = data.image;
+            cryptoIcon.style.display = 'block';
+            console.log('🖼️ Setting image:', data.image);
+        } else {
+            cryptoIcon.style.display = 'none';
+            console.log('❌ No image available');
+        }
+        
+        document.getElementById('cryptoName').textContent = data.name || 'Unknown';
+        document.getElementById('cryptoSymbol').textContent = (data.symbol || 'N/A').toUpperCase();
+        document.getElementById('cryptoPrice').textContent = formatCurrency(data.currentPrice);
+        
+        console.log('💰 Price:', data.currentPrice, 'Formatted:', formatCurrency(data.currentPrice));
+        
+        const priceChangeElement = document.getElementById('priceChange');
+        const priceChange = data.priceChangePercentage24h || 0;
+        priceChangeElement.textContent = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
+        priceChangeElement.className = `price-change ${priceChange < 0 ? 'negative' : ''}`;
+        
+        document.getElementById('cryptoCondition').textContent = priceChange >= 0 ? 'Bullish Trend' : 'Bearish Trend';
+        
+        // Update market details
+        document.getElementById('marketCap').textContent = formatLargeNumber(data.marketCap);
+        document.getElementById('totalVolume').textContent = formatLargeNumber(data.totalVolume);
+        document.getElementById('marketRank').textContent = data.rank ? `#${data.rank}` : '#N/A';
+        document.getElementById('circulatingSupply').textContent = data.circulatingSupply ? 
+            (data.circulatingSupply / 1e6).toFixed(1) + 'M' : 'N/A';
+        
+        // Update market stats
+        const priceChange24h = data.priceChange24h || 0;
+        document.getElementById('priceChange24h').textContent = `${priceChange24h >= 0 ? '+' : ''}${formatCurrency(priceChange24h)}`;
+        document.getElementById('priceChangePercentage24h').textContent = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
+        
+        // Update price extremes
+        document.getElementById('high24h').textContent = formatCurrency(data.high24h);
+        document.getElementById('low24h').textContent = formatCurrency(data.low24h);
+        
+        // Update timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        
+        console.log('✅ Display updated successfully');
+    }
+
+    function showError(message) {
+        const errorElement = document.getElementById('errorMessage');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+
+    document.getElementById('searchInput').addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            searchCrypto();
+        }
+    });
+
+    window.addEventListener('load', function() {
+        initCryptoEffects();
+        document.getElementById('searchInput').focus();
+    });
+
+    // Prevent scrolling with arrow keys
+    window.addEventListener('keydown', function(e) {
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+    }, false);
+</script>
+
+</body>
+</html>
