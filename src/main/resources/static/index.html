@@ -63,10 +63,6 @@
             text-shadow: 0 0 10px #00ff88;
         }
 
-        .crypto-particle.bitcoin { content: "₿"; }
-        .crypto-particle.ethereum { content: "⧫"; }
-        .crypto-particle.digital { content: "●"; }
-
         @keyframes floatParticle {
             0% {
                 transform: translateY(100vh) rotate(0deg);
@@ -673,15 +669,17 @@
             </div>
             
             <div style="margin-top: 20px; text-align: center; color: #aaa; font-size: 14px;">
-                Last updated: <span id="timestamp">2025-10-28 08:30:45</span>
+                Last updated: <span id="timestamp">Just now</span>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Updated API base URL to use relative path (works with same domain)
+    // API Configuration
     const API_BASE = '/api/crypto';
+    let lastSearchTime = 0;
+    const SEARCH_COOLDOWN = 2000;
 
     // Initialize crypto effects
     function initCryptoEffects() {
@@ -692,7 +690,7 @@
     // Create floating crypto particles
     function createParticles() {
         const container = document.getElementById('cryptoParticles');
-        const symbols = ['bitcoin', 'ethereum', 'digital', 'bitcoin', 'ethereum', 'digital'];
+        const symbols = ['bitcoin', 'ethereum', 'digital'];
         
         for (let i = 0; i < 20; i++) {
             const particle = document.createElement('div');
@@ -713,75 +711,48 @@
         const container = document.getElementById('blockchainNodes');
         const nodes = [];
         
-        // Create nodes
         for (let i = 0; i < 8; i++) {
             const node = document.createElement('div');
             node.className = 'node';
             node.style.left = `${10 + Math.random() * 80}%`;
             node.style.top = `${10 + Math.random() * 80}%`;
             node.style.animationDelay = `${Math.random() * 2}s`;
-            
             container.appendChild(node);
             nodes.push(node);
         }
-        
-        // Create connections between some nodes
-        for (let i = 0; i < nodes.length; i++) {
-            for (let j = i + 1; j < Math.min(i + 3, nodes.length); j++) {
-                if (Math.random() > 0.3) {
-                    createConnection(nodes[i], nodes[j]);
-                }
-            }
-        }
     }
 
-    function createConnection(node1, node2) {
-        const rect1 = node1.getBoundingClientRect();
-        const rect2 = node2.getBoundingClientRect();
-        
-        const x1 = rect1.left + rect1.width / 2;
-        const y1 = rect1.top + rect1.height / 2;
-        const x2 = rect2.left + rect2.width / 2;
-        const y2 = rect2.top + rect2.height / 2;
-        
-        const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-        
-        const connection = document.createElement('div');
-        connection.className = 'connection';
-        connection.style.width = `${length}px`;
-        connection.style.left = `${x1}px`;
-        connection.style.top = `${y1}px`;
-        connection.style.transform = `rotate(${angle}deg)`;
-        connection.style.animationDelay = `${Math.random() * 2}s`;
-        
-        document.getElementById('blockchainNodes').appendChild(connection);
-    }
-
+    // Format currency
     function formatCurrency(value) {
-        if (!value || value === 0) return '$0.00';
+        if (value === null || value === undefined || value === 0) return '$0.00';
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
             minimumFractionDigits: 2,
-            maximumFractionDigits: 2
+            maximumFractionDigits: value < 1 ? 6 : 2
         }).format(value);
     }
 
+    // Format large numbers
     function formatLargeNumber(value) {
-        if (!value || value === 0) return '$0.00';
-        if (value >= 1e12) {
-            return '$' + (value / 1e12).toFixed(2) + 'T';
-        } else if (value >= 1e9) {
-            return '$' + (value / 1e9).toFixed(2) + 'B';
-        } else if (value >= 1e6) {
-            return '$' + (value / 1e6).toFixed(2) + 'M';
-        } else if (value >= 1e3) {
-            return '$' + (value / 1e3).toFixed(2) + 'K';
-        }
+        if (value === null || value === undefined || value === 0) return '$0.00';
+        if (value >= 1e12) return '$' + (value / 1e12).toFixed(2) + 'T';
+        if (value >= 1e9) return '$' + (value / 1e9).toFixed(2) + 'B';
+        if (value >= 1e6) return '$' + (value / 1e6).toFixed(2) + 'M';
+        if (value >= 1e3) return '$' + (value / 1e3).toFixed(2) + 'K';
         return '$' + value.toFixed(2);
     }
 
+    // Format supply numbers
+    function formatSupply(value) {
+        if (value === null || value === undefined || value === 0) return 'N/A';
+        if (value >= 1e9) return (value / 1e9).toFixed(1) + 'B';
+        if (value >= 1e6) return (value / 1e6).toFixed(1) + 'M';
+        if (value >= 1e3) return (value / 1e3).toFixed(1) + 'K';
+        return value.toFixed(0);
+    }
+
+    // Show crypto view
     function showCryptoView() {
         document.getElementById('searchContainer').classList.add('fade-out');
         document.getElementById('appTitle').classList.add('fade-out');
@@ -795,6 +766,7 @@
         }, 500);
     }
 
+    // Show search view
     function showSearch() {
         document.getElementById('cryptoDisplay').classList.remove('fade-in');
         document.getElementById('cryptoDisplay').classList.add('fade-out');
@@ -805,103 +777,97 @@
             document.getElementById('searchContainer').style.display = 'flex';
             document.getElementById('appTitle').style.display = 'block';
             
-            void document.getElementById('searchContainer').offsetWidth;
-            void document.getElementById('appTitle').offsetWidth;
-            
             document.getElementById('searchContainer').classList.remove('fade-out');
             document.getElementById('appTitle').classList.remove('fade-out');
-            document.getElementById('searchContainer').classList.add('fade-in');
-            document.getElementById('appTitle').classList.add('fade-in');
-            
             document.getElementById('searchInput').value = '';
             document.getElementById('searchInput').focus();
         }, 500);
     }
 
+    // Main search function
     async function searchCrypto() {
+        const now = Date.now();
+        if (now - lastSearchTime < SEARCH_COOLDOWN) {
+            showError("Please wait a moment before searching again.");
+            return;
+        }
+        lastSearchTime = now;
+
         const input = document.getElementById('searchInput').value.trim();
         if (!input) {
             showError("Please enter a cryptocurrency symbol!");
             return;
         }
 
+        // Show loading
         document.getElementById('loadingIndicator').style.display = 'block';
         document.getElementById('errorMessage').style.display = 'none';
 
         try {
-            console.log('🔍 Making API request to:', `${API_BASE}/search?query=${encodeURIComponent(input)}`);
+            console.log('🔍 Searching for:', input);
             
-            const response = await fetch(`${API_BASE}/search?query=${encodeURIComponent(input)}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            
+            const response = await fetch(`/api/crypto/search?query=${encodeURIComponent(input)}`);
             console.log('📡 Response status:', response.status);
             
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('❌ API Error:', errorText);
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorData = await response.json();
+                throw new Error(errorData.error || `HTTP error: ${response.status}`);
             }
             
             const data = await response.json();
-            console.log('✅ API Response data:', data);
+            console.log('✅ Received data:', data);
             
+            // Update the display with real data
             updateCryptoDisplay(data);
             showCryptoView();
 
         } catch (error) {
-            console.error('❌ Error fetching crypto data:', error);
-            showError("Could not fetch crypto data. Please check the symbol and try again.");
+            console.error('❌ Search error:', error);
+            showError(error.message || "Failed to fetch data. Please try again.");
         } finally {
             document.getElementById('loadingIndicator').style.display = 'none';
         }
     }
 
+    // Update display with crypto data
     function updateCryptoDisplay(data) {
-        console.log('🎨 Updating display with data:', data);
+        console.log('🎨 Updating display with:', data);
         
-        // Update main crypto card
+        // Update main card
         const cryptoIcon = document.getElementById('cryptoIcon');
         if (data.image) {
             cryptoIcon.src = data.image;
             cryptoIcon.style.display = 'block';
-            console.log('🖼️ Setting image:', data.image);
         } else {
             cryptoIcon.style.display = 'none';
-            console.log('❌ No image available');
         }
         
         document.getElementById('cryptoName').textContent = data.name || 'Unknown';
         document.getElementById('cryptoSymbol').textContent = (data.symbol || 'N/A').toUpperCase();
-        document.getElementById('cryptoPrice').textContent = formatCurrency(data.currentPrice);
+        document.getElementById('cryptoPrice').textContent = formatCurrency(data.current_price);
         
-        console.log('💰 Price:', data.currentPrice, 'Formatted:', formatCurrency(data.currentPrice));
-        
+        const priceChange = data.price_change_percentage_24h || 0;
         const priceChangeElement = document.getElementById('priceChange');
-        const priceChange = data.priceChangePercentage24h || 0;
         priceChangeElement.textContent = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
         priceChangeElement.className = `price-change ${priceChange < 0 ? 'negative' : ''}`;
         
-        document.getElementById('cryptoCondition').textContent = priceChange >= 0 ? 'Bullish Trend' : 'Bearish Trend';
+        document.getElementById('cryptoCondition').textContent = priceChange >= 0 ? 'Bullish Trend 📈' : 'Bearish Trend 📉';
         
         // Update market details
-        document.getElementById('marketCap').textContent = formatLargeNumber(data.marketCap);
-        document.getElementById('totalVolume').textContent = formatLargeNumber(data.totalVolume);
-        document.getElementById('marketRank').textContent = data.rank ? `#${data.rank}` : '#N/A';
-        document.getElementById('circulatingSupply').textContent = data.circulatingSupply ? 
-            (data.circulatingSupply / 1e6).toFixed(1) + 'M' : 'N/A';
+        document.getElementById('marketCap').textContent = formatLargeNumber(data.market_cap);
+        document.getElementById('totalVolume').textContent = formatLargeNumber(data.total_volume);
+        document.getElementById('marketRank').textContent = data.market_cap_rank ? `#${data.market_cap_rank}` : '#N/A';
+        document.getElementById('circulatingSupply').textContent = data.circulating_supply ? 
+            formatSupply(data.circulating_supply) : 'N/A';
         
         // Update market stats
-        const priceChange24h = data.priceChange24h || 0;
+        const priceChange24h = data.price_change_24h || 0;
         document.getElementById('priceChange24h').textContent = `${priceChange24h >= 0 ? '+' : ''}${formatCurrency(priceChange24h)}`;
         document.getElementById('priceChangePercentage24h').textContent = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
         
         // Update price extremes
-        document.getElementById('high24h').textContent = formatCurrency(data.high24h);
-        document.getElementById('low24h').textContent = formatCurrency(data.low24h);
+        document.getElementById('high24h').textContent = formatCurrency(data.high_24h);
+        document.getElementById('low24h').textContent = formatCurrency(data.low_24h);
         
         // Update timestamp
         document.getElementById('timestamp').textContent = new Date().toLocaleString();
@@ -909,29 +875,24 @@
         console.log('✅ Display updated successfully');
     }
 
+    // Show error message
     function showError(message) {
         const errorElement = document.getElementById('errorMessage');
-        errorElement.textContent = message;
+        errorElement.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
         errorElement.style.display = 'block';
+        setTimeout(() => { errorElement.style.display = 'none'; }, 5000);
     }
 
+    // Event listeners
     document.getElementById('searchInput').addEventListener('keyup', function(event) {
-        if (event.key === 'Enter') {
-            searchCrypto();
-        }
+        if (event.key === 'Enter') searchCrypto();
     });
 
+    // Initialize
     window.addEventListener('load', function() {
         initCryptoEffects();
         document.getElementById('searchInput').focus();
     });
-
-    // Prevent scrolling with arrow keys
-    window.addEventListener('keydown', function(e) {
-        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-            e.preventDefault();
-        }
-    }, false);
 </script>
 
 </body>

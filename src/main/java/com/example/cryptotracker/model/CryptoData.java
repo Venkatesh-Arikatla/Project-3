@@ -16,7 +16,7 @@ public class CryptoData {
     @JsonProperty("market_cap")
     private double marketCap;
     
-    @JsonProperty("rank")  // CHANGED FROM "market_cap_rank" TO "rank"
+    @JsonProperty("market_cap_rank")  // ✅ FIXED: Changed from "rank" to "market_cap_rank"
     private int marketCapRank;
     
     @JsonProperty("total_volume")
@@ -79,4 +79,17 @@ public class CryptoData {
 
     public double getCirculatingSupply() { return circulatingSupply; }
     public void setCirculatingSupply(double circulatingSupply) { this.circulatingSupply = circulatingSupply; }
+
+    @Override
+    public String toString() {
+        return "CryptoData{" +
+                "id='" + id + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", name='" + name + '\'' +
+                ", currentPrice=" + currentPrice +
+                ", marketCap=" + marketCap +
+                ", marketCapRank=" + marketCapRank +
+                ", priceChange24h=" + priceChange24h +
+                '}';
+    }
 }
